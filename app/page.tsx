@@ -4,37 +4,44 @@ import Footer from "@/components/footer"
 import HeroSection from "@/components/hero-section"
 import AboutSection from "@/components/about-section"
 import NewsSection from "@/components/news-section"
-import ProgramsSection from "@/components/programs-section"
-import ServicesSection from "@/components/services-section"
+import TenunSection from "@/components/tenun-section"
+import KarawitanSection from "@/components/karawitan-section"
+import GallerySection from "@/components/gallery-section"
 
 export default async function Home() {
-  const supabase = await createClient()
+  const hasSupabaseEnv = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
 
-  // Fetch village info
-  const { data: villageInfo } = await supabase.from("village_info").select("*").single()
+  let villageInfo: any = null
+  let news: any[] = []
 
-  // Fetch published news (limit 3)
-  const { data: news } = await supabase
-    .from("news")
-    .select("*")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(3)
+  if (hasSupabaseEnv) {
+    const supabase = await createClient()
 
-  // Fetch active programs (limit 3)
-  const { data: programs } = await supabase.from("programs").select("*").eq("status", "active").limit(3)
+    const { data: vInfo } = await supabase.from("village_info").select("*").single()
+    villageInfo = vInfo ?? null
 
-  // Fetch active services
-  const { data: services } = await supabase.from("services").select("*").eq("status", "active").limit(6)
+    const { data: nData } = await supabase
+      .from("news")
+      .select("*")
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .limit(3)
+    news = nData || []
+  }
+
+  // No additional queries needed for Tenun/Karawitan/Galeri sections on beranda
 
   return (
     <main className="min-h-screen bg-background">
       <Header />
       <HeroSection villageInfo={villageInfo} />
       <AboutSection villageInfo={villageInfo} />
-      <NewsSection news={news || []} />
-      <ProgramsSection programs={programs || []} />
-      <ServicesSection services={services || []} />
+      <TenunSection />
+      <NewsSection news={news} />
+      <KarawitanSection />
+      <GallerySection />
       <Footer />
     </main>
   )

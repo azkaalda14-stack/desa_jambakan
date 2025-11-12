@@ -107,7 +107,7 @@ export default function ProgramManagement({ initialPrograms }: any) {
             setEditingId(null)
             setFormData({ title: "", description: "", category: "", image_url: "", status: "active", budget: "" })
           }}
-          className="bg-[#1f7d5e] hover:bg-[#165a47]"
+          className="bg-red-700 hover:bg-red-800"
         >
           <Plus className="mr-2 h-4 w-4" />
           Tambah Program
@@ -187,7 +187,7 @@ export default function ProgramManagement({ initialPrograms }: any) {
               </div>
 
               <div className="flex gap-2">
-                <Button type="submit" className="bg-[#1f7d5e] hover:bg-[#165a47]">
+                <Button type="submit" className="bg-red-600 hover:bg-red-700">
                   {editingId ? "Update" : "Simpan"}
                 </Button>
                 <Button
@@ -227,7 +227,7 @@ export default function ProgramManagement({ initialPrograms }: any) {
                       <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{item.category}</span>
                       <span
                         className={`text-xs px-2 py-1 rounded ${
-                          item.status === "active" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+        item.status === "active" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800"
                         }`}
                       >
                         {item.status === "active" ? "Aktif" : "Tidak Aktif"}

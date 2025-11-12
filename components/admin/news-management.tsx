@@ -12,10 +12,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Plus, Trash2, Edit2 } from "lucide-react"
 import ImageUpload from "./image-upload"
 
-export default function NewsManagement({ initialNews }: any) {
+export default function NewsManagement({ initialNews, currentUserId }: any) {
   const [news, setNews] = useState(initialNews)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -23,6 +24,9 @@ export default function NewsManagement({ initialNews }: any) {
     excerpt: "",
     featured_image_url: "",
     status: "draft",
+    published_date: "",
+    // UI-only: category (not persisted)
+    category: "Umum",
   })
 
   const supabase = createClient()
@@ -59,50 +63,74 @@ export default function NewsManagement({ initialNews }: any) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
 
     try {
       if (editingId) {
-        const { error } = await supabase
+        const { error: updateError } = await supabase
           .from("news")
           .update({
             ...formData,
+            // don't send UI-only fields
+            category: undefined as unknown as never,
+            published_date: undefined as unknown as never,
             updated_at: new Date().toISOString(),
           })
           .eq("id", editingId)
 
-        if (error) throw error
+        if (updateError) throw updateError
 
         setNews(news.map((item: any) => (item.id === editingId ? { ...item, ...formData } : item)))
       } else {
-        const { data: newNews, error } = await supabase
+        const { data: newNews, error: insertError } = await supabase
           .from("news")
           .insert([
             {
               ...formData,
-              published_at: formData.status === "published" ? new Date().toISOString() : null,
+              author_id: currentUserId,
+              // use chosen date for published_at if provided, else now
+              published_at:
+                formData.status === "published"
+                  ? formData.published_date
+                    ? new Date(formData.published_date).toISOString()
+                    : new Date().toISOString()
+                  : null,
             },
           ])
           .select()
 
-        if (error) throw error
+        if (insertError) throw insertError
         if (newNews) setNews([newNews[0], ...news])
       }
 
-      setFormData({ title: "", slug: "", content: "", excerpt: "", featured_image_url: "", status: "draft" })
+      setFormData({
+        title: "",
+        slug: "",
+        content: "",
+        excerpt: "",
+        featured_image_url: "",
+        status: "draft",
+        published_date: "",
+        category: "Umum",
+      })
       setEditingId(null)
       setIsFormOpen(false)
     } catch (error) {
-      console.error("Error:", error)
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      console.error("[v0] News submission error:", errorMessage)
+      setError(errorMessage)
     }
   }
 
   const handleDelete = async (id: string) => {
     try {
-      const { error } = await supabase.from("news").delete().eq("id", id)
-      if (error) throw error
+      const { error: deleteError } = await supabase.from("news").delete().eq("id", id)
+      if (deleteError) throw deleteError
       setNews(news.filter((item: any) => item.id !== id))
     } catch (error) {
-      console.error("Error:", error)
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      console.error("[v0] Delete error:", errorMessage)
+      setError(errorMessage)
     }
   }
 
@@ -114,6 +142,8 @@ export default function NewsManagement({ initialNews }: any) {
       excerpt: item.excerpt,
       featured_image_url: item.featured_image_url || "",
       status: item.status,
+      published_date: item.published_at ? new Date(item.published_at).toISOString().slice(0, 10) : "",
+      category: "Umum",
     })
     setEditingId(item.id)
     setIsFormOpen(true)
@@ -122,14 +152,27 @@ export default function NewsManagement({ initialNews }: any) {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Manajemen Berita</h2>
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900">Kelola Berita & Kegiatan</h2>
+          <p className="text-sm text-red-900/60 mt-2">Total: {news?.length || 0} berita</p>
+        </div>
         <Button
           onClick={() => {
             setIsFormOpen(!isFormOpen)
             setEditingId(null)
-            setFormData({ title: "", slug: "", content: "", excerpt: "", featured_image_url: "", status: "draft" })
+            setFormData({
+              title: "",
+              slug: "",
+              content: "",
+              excerpt: "",
+              featured_image_url: "",
+              status: "draft",
+              published_date: "",
+              category: "Umum",
+            })
+            setError(null)
           }}
-          className="bg-[#1f7d5e] hover:bg-[#165a47]"
+          className="bg-red-700 hover:bg-red-800"
         >
           <Plus className="mr-2 h-4 w-4" />
           Tambah Berita
@@ -137,14 +180,20 @@ export default function NewsManagement({ initialNews }: any) {
       </div>
 
       {isFormOpen && (
-        <Card>
+        <Card className="border-rose-200">
           <CardHeader>
-            <CardTitle>{editingId ? "Edit Berita" : "Tambah Berita Baru"}</CardTitle>
+            <CardTitle className="text-lg">{editingId ? "Edit Berita" : "Tambah Berita Baru"}</CardTitle>
           </CardHeader>
           <CardContent>
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                <p className="font-semibold">Error:</p>
+                <p className="text-sm">{error}</p>
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="title">Judul</Label>
+                <Label htmlFor="title">Judul Berita</Label>
                 <Input
                   id="title"
                   name="title"
@@ -175,7 +224,7 @@ export default function NewsManagement({ initialNews }: any) {
               </div>
 
               <div>
-                <Label htmlFor="content">Konten</Label>
+                <Label htmlFor="content">Konten Lengkap</Label>
                 <Textarea
                   id="content"
                   name="content"
@@ -187,8 +236,35 @@ export default function NewsManagement({ initialNews }: any) {
                 />
               </div>
 
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="category">Kategori</Label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  >
+                    <option>Umum</option>
+                    <option>Pengumuman</option>
+                    <option>Kegiatan</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="published_date">Tanggal Acara</Label>
+                  <Input
+                    id="published_date"
+                    name="published_date"
+                    type="date"
+                    value={formData.published_date}
+                    onChange={(e) => setFormData({ ...formData, published_date: e.target.value })}
+                  />
+                </div>
+              </div>
+
               <div>
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status">Status Publikasi</Label>
                 <select
                   id="status"
                   name="status"
@@ -196,13 +272,16 @@ export default function NewsManagement({ initialNews }: any) {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                 >
+                  <option value="published">Langsung Publish</option>
                   <option value="draft">Draft</option>
-                  <option value="published">Publikasi</option>
                 </select>
+                <p className="text-xs text-gray-500 mt-2">
+                  Draft tidak akan tampil di halaman publik, hanya admin yang bisa melihat
+                </p>
               </div>
 
               <div className="flex gap-2">
-                <Button type="submit" className="bg-[#1f7d5e] hover:bg-[#165a47]">
+                <Button type="submit" className="bg-red-700 hover:bg-red-800">
                   {editingId ? "Update" : "Simpan"}
                 </Button>
                 <Button
@@ -210,6 +289,7 @@ export default function NewsManagement({ initialNews }: any) {
                   onClick={() => {
                     setIsFormOpen(false)
                     setEditingId(null)
+                    setError(null)
                   }}
                   variant="outline"
                 >
@@ -221,7 +301,6 @@ export default function NewsManagement({ initialNews }: any) {
         </Card>
       )}
 
-      {/* News List */}
       <div className="space-y-3">
         {news && news.length > 0 ? (
           news.map((item: any) => (
@@ -241,10 +320,10 @@ export default function NewsManagement({ initialNews }: any) {
                     <div className="flex gap-3 mt-3">
                       <span
                         className={`text-xs px-2 py-1 rounded ${
-                          item.status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
+                          item.status === "published" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {item.status === "published" ? "Publikasi" : "Draft"}
+                        {item.status === "published" ? "Publish" : "Draft"}
                       </span>
                       <span className="text-xs text-gray-500">
                         {new Date(item.created_at).toLocaleDateString("id-ID")}
@@ -264,9 +343,9 @@ export default function NewsManagement({ initialNews }: any) {
             </Card>
           ))
         ) : (
-          <Card>
-            <CardContent className="pt-6">
-              <p className="text-center text-gray-500">Belum ada berita</p>
+          <Card className="border-rose-200">
+            <CardContent className="pt-10 pb-10">
+              <p className="text-center text-red-900/60">Belum ada berita. Tambahkan berita baru!</p>
             </CardContent>
           </Card>
         )}

@@ -15,7 +15,7 @@ export default async function ProgramListPage() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <section className="py-12 md:py-16 bg-gradient-to-r from-[#1f7d5e] to-[#2d9f6f]">
+      <section className="py-12 md:py-16 bg-gradient-to-r from-red-700 to-red-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-white mb-4 text-balance">Program Desa</h1>
           <p className="text-white/90 text-lg">Berbagai program pembangunan desa</p>
@@ -39,9 +39,9 @@ export default async function ProgramListPage() {
                     />
                   )}
                   <div className="p-6">
-                    <div className="inline-block bg-[#d4af37] text-[#1f7d5e] px-3 py-1 rounded-full text-sm font-semibold mb-3">
-                      {program.category}
-                    </div>
+                  <div className="inline-block bg-[#d4af37] text-red-700 px-3 py-1 rounded-full text-sm font-semibold mb-3">
+                    {program.category}
+                  </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{program.title}</h3>
                     <p className="text-gray-600 text-sm mb-4 line-clamp-3">{program.description}</p>
                     {program.budget && (

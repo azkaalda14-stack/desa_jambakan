@@ -3,6 +3,11 @@ import { redirect } from "next/navigation"
 import AdminLayout from "@/components/admin/admin-layout"
 import NewsManagement from "@/components/admin/news-management"
 
+export const metadata = {
+  title: "Manajemen Berita | Admin Desa",
+  description: "Kelola berita dan artikel desa Anda",
+}
+
 export default async function NewsAdminPage() {
   const supabase = await createClient()
   const {
@@ -23,7 +28,7 @@ export default async function NewsAdminPage() {
 
   return (
     <AdminLayout user={user} admin={admin}>
-      <NewsManagement initialNews={news || []} />
+      <NewsManagement initialNews={news || []} currentUserId={user.id} />
     </AdminLayout>
   )
 }

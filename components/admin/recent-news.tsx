@@ -15,7 +15,7 @@ export default function RecentNews({ news }: any) {
                 <p className="text-xs text-gray-500 mt-1">{new Date(item.created_at).toLocaleDateString("id-ID")}</p>
                 <p
                   className={`text-xs mt-2 inline-block px-2 py-1 rounded ${
-                    item.status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
+                    item.status === "published" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800"
                   }`}
                 >
                   {item.status === "published" ? "Publikasi" : "Draft"}

@@ -1,9 +1,8 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import AdminLayout from "@/components/admin/admin-layout"
-import DashboardStats from "@/components/admin/dashboard-stats"
-import RecentNews from "@/components/admin/recent-news"
-import RecentSubmissions from "@/components/admin/recent-submissions"
+import DashboardOverview from "@/components/admin/dashboard-overview"
+import { Layers, FileText, Image, Music, Users, IdCard } from "lucide-react"
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
@@ -22,36 +21,87 @@ export default async function AdminDashboard() {
     redirect("/admin/login")
   }
 
-  // Fetch dashboard data
-  const { data: newsCount } = await supabase.from("news").select("id", { count: "exact" }).eq("status", "published")
+  // Fetch counts for overview
+  const { count: tenunCount } = await supabase
+    .from("pages")
+    .select("id", { count: "exact" })
+    .eq("category", "tenun")
+    .eq("status", "published")
 
-  const { data: programsCount } = await supabase
-    .from("programs")
+  const { count: beritaCount } = await supabase
+    .from("news")
+    .select("id", { count: "exact" })
+    .eq("status", "published")
+
+  const { count: galeriCount } = await supabase.from("gallery").select("id", { count: "exact" })
+
+  const { count: karawitanCount } = await supabase
+    .from("pages")
+    .select("id", { count: "exact" })
+    .eq("category", "karawitan")
+    .eq("status", "published")
+
+  const { count: strukturCount } = await supabase
+    .from("village_structure")
     .select("id", { count: "exact" })
     .eq("status", "active")
 
-  const { data: submissions } = await supabase.from("contact_submissions").select("*").eq("status", "new").limit(5)
-
-  const { data: recentNews } = await supabase
-    .from("news")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(5)
+  const { count: profileCount } = await supabase.from("village_info").select("id", { count: "exact" })
 
   return (
     <AdminLayout user={user} admin={admin}>
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600 mt-2">Selamat datang kembali, {admin.full_name || user.email}</p>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard Admin</h1>
+          <p className="text-gray-700 mt-2">Kelola konten website Desa Jambakan</p>
         </div>
 
-        <DashboardStats newsCount={newsCount || []} programsCount={programsCount || []} />
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <RecentNews news={recentNews || []} />
-          <RecentSubmissions submissions={submissions || []} />
-        </div>
+        <DashboardOverview
+          items={[
+            {
+              title: "Kelola Tenun",
+              href: "/admin/tenun",
+              description: "Tambah, edit, atau hapus karya tenun",
+              icon: Layers,
+              count: tenunCount || 0,
+            },
+            {
+              title: "Kelola Berita",
+              href: "/admin/berita",
+              description: "Kelola berita dan kegiatan desa",
+              icon: FileText,
+              count: beritaCount || 0,
+            },
+            {
+              title: "Kelola Galeri",
+              href: "/admin/galeri",
+              description: "Kelola foto dan dokumentasi desa",
+              icon: Image,
+              count: galeriCount || 0,
+            },
+            {
+              title: "Kelola Karawitan",
+              href: "/admin/karawitan",
+              description: "Kelola konten karawitan",
+              icon: Music,
+              count: karawitanCount || 0,
+            },
+            {
+              title: "Kelola Profile",
+              href: "/admin/sejarah",
+              description: "Kelola profil desa (visi, misi, sejarah, dll)",
+              icon: IdCard,
+              count: profileCount || 0,
+            },
+            {
+              title: "Kelola Struktur",
+              href: "/admin/struktur",
+              description: "Kelola struktur organisasi desa",
+              icon: Users,
+              count: strukturCount || 0,
+            },
+          ]}
+        />
       </div>
     </AdminLayout>
   )

@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center p-4 bg-gradient-to-br from-[#1f7d5e] to-[#165a47]">
+  <div className="flex min-h-screen w-full items-center justify-center p-4 bg-gradient-to-br from-red-700 to-red-800">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl">Login Admin</CardTitle>
@@ -72,9 +72,18 @@ export default function AdminLoginPage() {
               />
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button type="submit" className="w-full bg-[#1f7d5e] hover:bg-[#165a47]" disabled={isLoading}>
+  <Button type="submit" className="w-full bg-red-700 hover:bg-red-800" disabled={isLoading}>
               {isLoading ? "Logging in..." : "Login"}
             </Button>
+
+            <div className="text-center text-sm">
+              <p className="text-gray-600">
+                Belum punya akun?{" "}
+                <a href="/admin/signup" className="text-red-700 font-semibold hover:underline">
+                  Daftar di sini
+                </a>
+              </p>
+            </div>
           </form>
         </CardContent>
       </Card>

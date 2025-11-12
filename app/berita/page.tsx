@@ -16,7 +16,7 @@ export default async function NewsListPage() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <section className="py-12 md:py-16 bg-gradient-to-r from-[#1f7d5e] to-[#2d9f6f]">
+      <section className="py-12 md:py-16 bg-gradient-to-r from-red-700 to-red-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-white mb-4 text-balance">Berita Desa</h1>
           <p className="text-white/90 text-lg">Informasi terkini dari desa kami</p>

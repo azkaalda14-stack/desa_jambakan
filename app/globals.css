@@ -79,9 +79,9 @@
   --font-mono: "Geist Mono", "Geist Mono Fallback";
 
   /* Color tokens */
-  --color-primary: #1f7d5e;
-  --color-primary-dark: #165a47;
-  --color-primary-light: #2d9f6f;
+  --color-primary: #b91c1c; /* red-700 */
+  --color-primary-dark: #7f1d1d; /* red-900 */
+  --color-primary-light: #dc2626; /* red-600 */
   --color-secondary: #d4af37;
   --color-secondary-light: #e8c547;
   --color-neutral-50: #f9fafb;

@@ -7,25 +7,25 @@ export default function DashboardStats({ newsCount, programsCount }: any) {
       title: "Berita",
       value: newsCount?.length || 0,
       icon: FileText,
-      color: "bg-blue-500",
+      color: "bg-red-600",
     },
     {
       title: "Program",
       value: programsCount?.length || 0,
       icon: Briefcase,
-      color: "bg-green-500",
+      color: "bg-red-600",
     },
     {
       title: "Pesan",
       value: "12",
       icon: MessageSquare,
-      color: "bg-orange-500",
+      color: "bg-red-600",
     },
     {
       title: "Pengguna",
       value: "1",
       icon: Users,
-      color: "bg-purple-500",
+      color: "bg-red-600",
     },
   ]
 

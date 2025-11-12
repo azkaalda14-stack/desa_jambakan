@@ -1,82 +1,221 @@
 "use client"
 
 import Link from "next/link"
-import { Menu, X } from "lucide-react"
-import { useState } from "react"
+import { Menu, X, ChevronDown } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const profileRef = useRef<HTMLDivElement>(null)
+  const budayaRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node
+      const clickedInsideProfile = profileRef.current?.contains(target)
+      const clickedInsideBudaya = budayaRef.current?.contains(target)
+
+      if (!clickedInsideProfile && !clickedInsideBudaya) {
+        setActiveDropdown(null)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex justify-between items-center">
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
+      <nav className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-[#1f7d5e] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">D</span>
+          <Link href="/" prefetch={false} className="flex items-center gap-4 group">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/Seal_of_Klaten_Regency.svg"
+              alt="Logo Kabupaten Klaten (transparan)"
+              className="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-110 transition-transform duration-300"
+            />
+            <div className="hidden sm:flex flex-col">
+  <span className="font-bold text-red-900 text-base md:text-lg leading-tight">DESA JAMBAKAN</span>
+  <span className="text-red-600 text-sm md:text-base font-medium">Kabupaten Klaten</span>
             </div>
-            <span className="font-bold text-lg text-gray-900 hidden sm:inline">Desa</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-8">
-            <Link href="/" className="text-gray-700 hover:text-[#1f7d5e] transition">
+          <div className="hidden md:flex gap-1 items-center">
+            <Link
+              href="/"
+              prefetch={false}
+  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+            >
               Beranda
             </Link>
-            <Link href="/tentang" className="text-gray-700 hover:text-[#1f7d5e] transition">
-              Tentang
-            </Link>
-            <Link href="/berita" className="text-gray-700 hover:text-[#1f7d5e] transition">
+
+            <div className="relative" ref={profileRef}>
+              <button
+                onClick={() => setActiveDropdown(activeDropdown === "profile" ? null : "profile")}
+  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
+              >
+                Profile
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform ${activeDropdown === "profile" ? "rotate-180" : ""}`}
+                />
+              </button>
+              {activeDropdown === "profile" && (
+                <div className="absolute top-full mt-0 left-0 bg-white rounded-lg shadow-lg border border-gray-100 py-2 w-48">
+                  <Link
+                    href="/tentang"
+                    prefetch={false}
+                    onClick={() => setActiveDropdown(null)}
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
+                  >
+                    Sejarah Desa
+                  </Link>
+                  <Link
+                    href="/profil/peta-desa"
+                    prefetch={false}
+                    onClick={() => setActiveDropdown(null)}
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
+                  >
+                    Peta Desa
+                  </Link>
+                  <Link
+                    href="/profil/struktur"
+                    prefetch={false}
+                    onClick={() => setActiveDropdown(null)}
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
+                  >
+                    Struktur Desa
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <div className="relative" ref={budayaRef}>
+              <button
+                onClick={() => setActiveDropdown(activeDropdown === "budaya" ? null : "budaya")}
+  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
+              >
+                Budaya
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform ${activeDropdown === "budaya" ? "rotate-180" : ""}`}
+                />
+              </button>
+              {activeDropdown === "budaya" && (
+                <div className="absolute top-full mt-0 left-0 bg-white rounded-lg shadow-lg border border-gray-100 py-2 w-48">
+                  <Link
+                    href="/budaya/tenun"
+                    prefetch={false}
+                    onClick={() => setActiveDropdown(null)}
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
+                  >
+                    Karya Tenun
+                  </Link>
+                  <Link
+                    href="/budaya/karawitan"
+                    prefetch={false}
+                    onClick={() => setActiveDropdown(null)}
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
+                  >
+                    Karawitan
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/berita"
+              prefetch={false}
+  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+            >
               Berita
             </Link>
-            <Link href="/program" className="text-gray-700 hover:text-[#1f7d5e] transition">
-              Program
-            </Link>
-            <Link href="/kontak" className="text-gray-700 hover:text-[#1f7d5e] transition">
-              Kontak
-            </Link>
-          </div>
-
-          {/* Admin Link */}
-          <div className="hidden md:block">
             <Link
-              href="/admin/login"
-              className="bg-[#1f7d5e] text-white px-4 py-2 rounded-lg hover:bg-[#165a47] transition"
+              href="/galeri"
+              prefetch={false}
+  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
-              Admin
+              Galeri
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-gray-700">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+  className="md:hidden text-gray-700 hover:text-red-600 transition-colors"
+          >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4 space-y-3">
-            <Link href="/" className="block text-gray-700 hover:text-[#1f7d5e] transition">
+          <div className="md:hidden pb-4 border-t border-gray-100 pt-4 space-y-2">
+            <Link
+              href="/"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
+            >
               Beranda
             </Link>
-            <Link href="/tentang" className="block text-gray-700 hover:text-[#1f7d5e] transition">
-              Tentang
-            </Link>
-            <Link href="/berita" className="block text-gray-700 hover:text-[#1f7d5e] transition">
-              Berita
-            </Link>
-            <Link href="/program" className="block text-gray-700 hover:text-[#1f7d5e] transition">
-              Program
-            </Link>
-            <Link href="/kontak" className="block text-gray-700 hover:text-[#1f7d5e] transition">
-              Kontak
+            <Link
+              href="/tentang"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
+            >
+              Sejarah Desa
             </Link>
             <Link
-              href="/admin/login"
-              className="block bg-[#1f7d5e] text-white px-4 py-2 rounded-lg hover:bg-[#165a47] transition"
+              href="/profil/peta-desa"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
-              Admin
+              Peta Desa
+            </Link>
+            <Link
+              href="/profil/struktur"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
+            >
+              Struktur Desa
+            </Link>
+            <Link
+              href="/budaya/tenun"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
+            >
+              Karya Tenun
+            </Link>
+            <Link
+              href="/budaya/karawitan"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
+            >
+              Karawitan
+            </Link>
+            <Link
+              href="/berita"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
+            >
+              Berita
+            </Link>
+            <Link
+              href="/galeri"
+              prefetch={false}
+              onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
+            >
+              Galeri
             </Link>
           </div>
         )}

@@ -16,7 +16,7 @@ export default function ServicesSection({ services }: any) {
         {/* Section Title */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-balance">Layanan Desa</h2>
-          <div className="w-16 h-1 bg-[#1f7d5e] mx-auto"></div>
+  <div className="w-16 h-1 bg-red-700 mx-auto"></div>
         </div>
 
         {/* Services Grid */}
@@ -27,9 +27,9 @@ export default function ServicesSection({ services }: any) {
               return (
                 <div
                   key={service.id}
-                  className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-8 border border-gray-200 hover:border-[#1f7d5e] hover:shadow-lg transition"
+  className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-8 border border-gray-200 hover:border-red-700 hover:shadow-lg transition"
                 >
-                  <div className="w-12 h-12 bg-[#1f7d5e] rounded-lg flex items-center justify-center mb-4">
+  <div className="w-12 h-12 bg-red-700 rounded-lg flex items-center justify-center mb-4">
                     <IconComponent className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{service.name}</h3>

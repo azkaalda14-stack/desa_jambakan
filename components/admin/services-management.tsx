@@ -86,7 +86,7 @@ export default function ServicesManagement({ initialServices }: any) {
             setEditingId(null)
             setFormData({ name: "", description: "", category: "", status: "active" })
           }}
-          className="bg-[#1f7d5e] hover:bg-[#165a47]"
+          className="bg-red-700 hover:bg-red-800"
         >
           <Plus className="mr-2 h-4 w-4" />
           Tambah Layanan
@@ -151,7 +151,7 @@ export default function ServicesManagement({ initialServices }: any) {
               </div>
 
               <div className="flex gap-2">
-                <Button type="submit" className="bg-[#1f7d5e] hover:bg-[#165a47]">
+                <Button type="submit" className="bg-red-700 hover:bg-red-800">
                   {editingId ? "Update" : "Simpan"}
                 </Button>
                 <Button
@@ -186,7 +186,7 @@ export default function ServicesManagement({ initialServices }: any) {
                       )}
                       <span
                         className={`text-xs px-2 py-1 rounded ${
-                          item.status === "active" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+        item.status === "active" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800"
                         }`}
                       >
                         {item.status === "active" ? "Aktif" : "Tidak Aktif"}

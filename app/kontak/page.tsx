@@ -61,7 +61,7 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <section className="py-12 md:py-16 bg-gradient-to-r from-[#1f7d5e] to-[#2d9f6f]">
+  <section className="py-12 md:py-16 bg-gradient-to-r from-red-700 to-red-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-white mb-4 text-balance">Hubungi Kami</h1>
           <p className="text-white/90 text-lg">Kami siap melayani pertanyaan Anda</p>
@@ -78,7 +78,7 @@ export default function ContactPage() {
               {submitMessage && (
                 <div
                   className={`p-4 rounded-lg ${
-                    submitMessage.includes("terkirim") ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+  submitMessage.includes("terkirim") ? "bg-red-100 text-red-800" : "bg-red-100 text-red-800"
                   }`}
                 >
                   {submitMessage}
@@ -146,7 +146,7 @@ export default function ContactPage() {
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-[#1f7d5e] hover:bg-[#165a47]" disabled={isSubmitting}>
+  <Button type="submit" className="w-full bg-red-700 hover:bg-red-800" disabled={isSubmitting}>
                 {isSubmitting ? "Mengirim..." : "Kirim Pesan"}
               </Button>
             </form>

@@ -24,7 +24,7 @@ export default async function NewsDetailPage({
       <Header />
       <article className="py-12 md:py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/berita" className="flex items-center gap-2 text-[#1f7d5e] hover:underline mb-8">
+          <Link href="/berita" className="flex items-center gap-2 text-red-700 hover:underline mb-8">
             <ArrowLeft size={20} />
             Kembali ke Berita
           </Link>

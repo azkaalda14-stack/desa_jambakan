@@ -8,7 +8,7 @@ export default function ProgramsSection({ programs }: any) {
         {/* Section Title */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-balance">Program Desa</h2>
-          <div className="w-16 h-1 bg-[#1f7d5e] mx-auto"></div>
+  <div className="w-16 h-1 bg-red-700 mx-auto"></div>
         </div>
 
         {/* Programs Grid */}
@@ -27,9 +27,9 @@ export default function ProgramsSection({ programs }: any) {
                   />
                 )}
                 <div className="p-6">
-                  <div className="inline-block bg-[#d4af37] text-[#1f7d5e] px-3 py-1 rounded-full text-sm font-semibold mb-3">
-                    {program.category}
-                  </div>
+          <div className="inline-block bg-[#d4af37] text-red-700 px-3 py-1 rounded-full text-sm font-semibold mb-3">
+            {program.category}
+          </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{program.title}</h3>
                   <p className="text-gray-600 text-sm mb-4 line-clamp-3">{program.description}</p>
                   {program.budget && (
@@ -52,7 +52,7 @@ export default function ProgramsSection({ programs }: any) {
         <div className="text-center mt-12">
           <Link
             href="/program"
-            className="inline-block bg-[#1f7d5e] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#165a47] transition"
+          className="inline-block bg-red-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-800 transition"
           >
             Lihat Semua Program
           </Link>

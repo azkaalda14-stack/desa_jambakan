@@ -7,8 +7,8 @@ export default function NewsSection({ news }: any) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-balance">Berita Terbaru</h2>
-          <div className="w-16 h-1 bg-[#1f7d5e] mx-auto"></div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-balance">Berita & Kegiatan Desa</h2>
+  <div className="w-16 h-1 bg-red-700 mx-auto"></div>
         </div>
 
         {/* News Grid */}
@@ -37,7 +37,7 @@ export default function NewsSection({ news }: any) {
                   </div>
                   <Link
                     href={`/berita/${item.slug}`}
-                    className="text-[#1f7d5e] font-semibold hover:text-[#165a47] transition"
+            className="text-red-700 font-semibold hover:text-red-800 transition"
                   >
                     Baca Selengkapnya →
                   </Link>
@@ -55,7 +55,7 @@ export default function NewsSection({ news }: any) {
         <div className="text-center mt-12">
           <Link
             href="/berita"
-            className="inline-block bg-[#1f7d5e] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#165a47] transition"
+          className="inline-block bg-red-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-800 transition"
           >
             Lihat Semua Berita
           </Link>

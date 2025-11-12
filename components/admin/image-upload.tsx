@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Label } from "@/components/ui/label"
-import { Upload, X } from "lucide-react"
+import { Upload, X, AlertCircle } from "lucide-react"
 
 interface ImageUploadProps {
   onUpload: (url: string) => void
@@ -14,10 +13,28 @@ interface ImageUploadProps {
 export default function ImageUpload({ onUpload, currentImage }: ImageUploadProps) {
   const [preview, setPreview] = useState<string>(currentImage || "")
   const [isUploading, setIsUploading] = useState(false)
+  const [error, setError] = useState<string>("")
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+
+    setError("")
+
+    const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+    if (file.size > MAX_FILE_SIZE) {
+      const errorMsg = `File terlalu besar (${(file.size / 1024 / 1024).toFixed(2)}MB). Max: 5MB`
+      setError(errorMsg)
+      console.error("[v0] Client validation:", errorMsg)
+      return
+    }
+
+    if (!file.type.startsWith("image/")) {
+      const errorMsg = "File harus berupa gambar (JPG, PNG, dll)"
+      setError(errorMsg)
+      console.error("[v0] Client validation:", errorMsg)
+      return
+    }
 
     // Show preview
     const reader = new FileReader()
@@ -28,6 +45,7 @@ export default function ImageUpload({ onUpload, currentImage }: ImageUploadProps
 
     // Upload to Vercel Blob
     setIsUploading(true)
+    console.log("[v0] Starting upload for file:", file.name)
     try {
       const formData = new FormData()
       formData.append("file", file)
@@ -37,14 +55,33 @@ export default function ImageUpload({ onUpload, currentImage }: ImageUploadProps
         body: formData,
       })
 
-      if (!response.ok) throw new Error("Upload failed")
+      if (!response.ok) {
+        let errorDetails = "Upload gagal"
+        try {
+          const errorData = await response.json()
+          console.error("[v0] Server error response:", errorData)
+          errorDetails = errorData.details || errorData.error || errorDetails
+        } catch {
+          // If response is not JSON, use status text
+          errorDetails = `Server error (${response.status}): ${response.statusText}`
+          console.error("[v0] Non-JSON error response:", errorDetails)
+        }
+        throw new Error(errorDetails)
+      }
 
       const data = await response.json()
+      console.log("[v0] Upload successful:", data.url)
       onUpload(data.url)
       setPreview(data.url)
+      setError("")
     } catch (error) {
-      console.error("Upload error:", error)
-      alert("Gagal mengunggah gambar")
+      const errorMessage = error instanceof Error ? error.message : "Kesalahan tidak diketahui"
+      console.error("[v0] Upload error details:", {
+        error: errorMessage,
+        fileName: file.name,
+        fileSize: file.size,
+      })
+      setError(`Gagal upload: ${errorMessage}`)
     } finally {
       setIsUploading(false)
     }
@@ -52,6 +89,7 @@ export default function ImageUpload({ onUpload, currentImage }: ImageUploadProps
 
   const handleRemove = () => {
     setPreview("")
+    setError("")
     onUpload("")
   }
 
@@ -68,6 +106,13 @@ export default function ImageUpload({ onUpload, currentImage }: ImageUploadProps
             >
               <X size={16} />
             </button>
+          </div>
+        )}
+
+        {error && (
+          <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <AlertCircle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-700">{error}</p>
           </div>
         )}
 
