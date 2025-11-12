@@ -1,15 +1,29 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import type { Metadata } from "next"
+import { createClient } from "@/lib/supabase/server"
+import { GalleryClient } from "./gallery-client"
 
-export default function GaleriPage() {
-  const images = [
-    "/village-view.jpg",
-    "/village-pattern.jpg",
-    "/placeholder.jpg",
-    "/placeholder.jpg",
-    "/village-view.jpg",
-    "/village-pattern.jpg",
-  ]
+export const metadata: Metadata = {
+  title: "Galeri",
+}
+
+interface GalleryItem {
+  id: string
+  title: string
+  description: string | null
+  image_url: string
+  category: string | null
+  created_at: string
+}
+
+export default async function GaleriPage() {
+  const supabase = await createClient()
+  const { data: items } = await supabase
+    .from("gallery")
+    .select("id,title,description,image_url,category,status,created_at")
+    .eq("status", "published")
+    .order("created_at", { ascending: false })
 
   return (
     <main className="min-h-screen bg-white">
@@ -19,14 +33,7 @@ export default function GaleriPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-red-900">Galeri Desa Jambakan</h1>
           <p className="text-gray-600 mt-2">Kumpulan foto kegiatan dan keindahan Desa Jambakan.</p>
         </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {images.map((src, idx) => (
-            <div key={idx} className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-md hover:shadow-lg transition">
-              <img src={src} alt={`Foto Galeri ${idx + 1}`} className="w-full h-48 object-cover" />
-            </div>
-          ))}
-        </div>
+        <GalleryClient items={items || []} />
       </section>
       <Footer />
     </main>

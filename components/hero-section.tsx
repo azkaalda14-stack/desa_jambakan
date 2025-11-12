@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react"
 import { useState, useEffect } from "react"
 
 const heroImages = [
@@ -74,25 +74,24 @@ export default function HeroSection() {
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-balance leading-tight animate-in fade-in duration-1000">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-balance leading-tight duration-1000">
               {heroImages[currentSlide].title}
             </h1>
-            <p className="text-lg md:text-xl text-gray-100 text-balance leading-relaxed max-w-2xl mx-auto animate-in fade-in duration-1000 delay-200">
+            <p className="text-lg md:text-xl text-gray-100 text-balance leading-relaxed max-w-2xl mx-auto duration-1000 delay-200">
               {heroImages[currentSlide].description}
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 animate-in fade-in duration-1000 delay-300">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 duration-1000 delay-300">
               <Link
                 href="/budaya/tenun"
-                className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 inline-flex items-center gap-2"
+                className="w-auto mx-auto sm:mx-0 bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 inline-flex items-center gap-2"
               >
                 Lihat Karya Tenun
-                <ChevronDown size={18} className="rotate-180" />
               </Link>
               <Link
                 href="/berita"
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 border border-white/30 hover:border-white/50 backdrop-blur-sm hover:scale-110 active:scale-95 inline-flex items-center gap-2"
+                className="w-auto mx-auto sm:mx-0 bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 border border-white/30 hover:border-white/50 backdrop-blur-sm hover:scale-110 active:scale-95 inline-flex items-center gap-2"
               >
                 Baca Berita
               </Link>
@@ -128,11 +127,6 @@ export default function HeroSection() {
             }`}
           />
         ))}
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-24 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
-        <ChevronDown size={32} className="text-white/70 hover:text-white transition-colors" />
       </div>
     </section>
   )

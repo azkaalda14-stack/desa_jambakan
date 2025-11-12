@@ -1,4 +1,9 @@
 import { createClient } from "@/lib/supabase/server"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Karawitan Desa",
+}
 import SocialEmbed from "@/components/social-embed"
 import Header from "@/components/header"
 import Footer from "@/components/footer"

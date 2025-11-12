@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react"
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [isScrolled, setIsScrolled] = useState(false)
   const profileRef = useRef<HTMLDivElement>(null)
   const budayaRef = useRef<HTMLDivElement>(null)
 
@@ -24,10 +25,22 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? "bg-white/95 backdrop-blur-md shadow-lg" 
+        : "bg-white shadow-sm"
+    }`}>
       <nav className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" prefetch={false} className="flex items-center gap-4 group">
             <img
@@ -42,11 +55,11 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-1 items-center">
+          <div className="hidden md:flex gap-2 items-center">
             <Link
               href="/"
               prefetch={false}
-  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Beranda
             </Link>
@@ -54,7 +67,7 @@ export default function Header() {
             <div className="relative" ref={profileRef}>
               <button
                 onClick={() => setActiveDropdown(activeDropdown === "profile" ? null : "profile")}
-  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
               >
                 Profile
                 <ChevronDown
@@ -95,7 +108,7 @@ export default function Header() {
             <div className="relative" ref={budayaRef}>
               <button
                 onClick={() => setActiveDropdown(activeDropdown === "budaya" ? null : "budaya")}
-  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
               >
                 Budaya
                 <ChevronDown
@@ -128,14 +141,14 @@ export default function Header() {
             <Link
               href="/berita"
               prefetch={false}
-  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Berita
             </Link>
             <Link
               href="/galeri"
               prefetch={false}
-  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Galeri
             </Link>

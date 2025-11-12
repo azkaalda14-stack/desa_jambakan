@@ -1,5 +1,10 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Struktur",
+}
 import { createClient } from "@/lib/supabase/server"
 
 export default async function StrukturDesaPage() {
