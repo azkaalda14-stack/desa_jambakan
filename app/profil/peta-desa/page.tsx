@@ -1,5 +1,10 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Peta",
+}
 
 // Sumber koordinat: Wikipedia (Jambakan, Bayat, Klaten) 7.79083°S, 110.67972°E
 // Referensi batas kecamatan: Wikipedia Bayat, Klaten

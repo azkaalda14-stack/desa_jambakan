@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server"
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -57,4 +58,16 @@ export default async function NewsDetailPage({
       <Footer />
     </main>
   )
+}
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const supabase = await createClient()
+  const { data: news } = await supabase
+    .from("news")
+    .select("title,status")
+    .eq("slug", params.slug)
+    .single()
+
+  return {
+    title: news?.title || "Detail Berita",
+  }
 }

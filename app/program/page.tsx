@@ -1,4 +1,9 @@
 import { createClient } from "@/lib/supabase/server"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Program Desa",
+}
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { DollarSign } from "lucide-react"

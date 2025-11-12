@@ -1,4 +1,9 @@
 import { createClient } from "@/lib/supabase/server"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Tentang",
+}
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import DemographicsSection from "@/components/demographics-section"

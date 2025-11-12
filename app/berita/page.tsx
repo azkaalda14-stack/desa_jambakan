@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server"
+import type { Metadata } from "next"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
@@ -56,4 +57,7 @@ export default async function NewsListPage() {
       <Footer />
     </main>
   )
+}
+export const metadata: Metadata = {
+  title: "Berita",
 }
