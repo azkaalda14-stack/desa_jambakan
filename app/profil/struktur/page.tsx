@@ -24,11 +24,6 @@ export default async function StrukturDesaPage() {
   <h1 className="text-2xl md:text-3xl font-bold text-red-900">Struktur Organisasi Desa</h1>
             <p className="text-gray-600 mt-2">Susunan perangkat Desa Jambakan.</p>
           </div>
-          {admin && (
-  <a href="/admin/struktur" className="text-sm rounded bg-red-700 text-white px-3 py-2 hover:bg-red-800">
-              Edit Struktur (Admin)
-            </a>
-          )}
         </div>
 
         {items && items.length > 0 ? (
