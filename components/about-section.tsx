@@ -42,11 +42,11 @@ export default function AboutSection({ villageInfo }: any) {
             <img src="/village-view.jpg" alt="Desa" className="rounded-xl shadow-lg w-full h-auto" />
           </div>
           <div>
-            <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            <p className="text-gray-700 text-lg leading-relaxed mb-4 text-justify">
               {villageInfo?.description ||
                 "Desa kami adalah sebuah komunitas yang berkembang dengan semangat kebersamaan dan kemajuan bersama. Kami berkomitmen untuk memberikan pelayanan terbaik kepada seluruh masyarakat."}
             </p>
-            <p className="text-gray-600 text-base leading-relaxed">
+            <p className="text-gray-600 text-base leading-relaxed text-justify">
               Dengan dukungan teknologi digital modern, kami terus berinovasi untuk meningkatkan kualitas kehidupan
               masyarakat desa.
             </p>

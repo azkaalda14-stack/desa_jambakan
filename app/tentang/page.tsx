@@ -178,7 +178,7 @@ export default async function AboutPage() {
             </div>
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">{villageInfo?.name || "Desa Kami"}</h2>
-              <p className="text-gray-700 text-lg leading-relaxed mb-4">
+              <p className="text-gray-700 text-lg leading-relaxed mb-4 text-justify">
                 {villageInfo?.description ||
                   "Desa kami adalah sebuah komunitas yang berkembang dengan semangat kebersamaan dan kemajuan bersama."}
               </p>
@@ -194,10 +194,13 @@ export default async function AboutPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-red-900">Sejarah Desa</h2>
             </div>
             {sejarahContent ? (
-              <div className="prose max-w-none bg-white p-6 rounded-lg shadow-md" dangerouslySetInnerHTML={{ __html: sejarahContent }} />
+              <div
+                className="prose max-w-none bg-white p-6 rounded-lg shadow-md prose-p:text-justify prose-p:leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: sejarahContent }}
+              />
             ) : (
               <div className="bg-white p-6 rounded-lg shadow-md">
-                <p className="text-gray-700">
+                <p className="text-gray-700 text-justify leading-relaxed">
                   Belum ada konten sejarah yang dipublikasikan. Silakan tambahkan konten pada admin kategori
                   <span className="font-semibold"> Sejarah</span>.
                 </p>
