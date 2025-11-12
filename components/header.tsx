@@ -48,9 +48,9 @@ export default function Header() {
               alt="Logo Kabupaten Klaten (transparan)"
               className="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-110 transition-transform duration-300"
             />
-            <div className="hidden sm:flex flex-col">
-  <span className="font-bold text-red-900 text-base md:text-lg leading-tight">DESA JAMBAKAN</span>
-  <span className="text-red-600 text-sm md:text-base font-medium">Kabupaten Klaten</span>
+            <div className="flex flex-col">
+              <span className="font-bold text-red-900 text-sm sm:text-base md:text-lg leading-tight">DESA JAMBAKAN</span>
+              <span className="hidden sm:block text-red-600 text-xs sm:text-sm md:text-base font-medium">Kabupaten Klaten</span>
             </div>
           </Link>
 
