@@ -79,6 +79,8 @@ export default function AdminLayout({ user, admin, children }: any) {
         <div className="mt-auto">
           <Link
             href="/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="m-4 flex items-center gap-3 px-4 py-3 rounded-lg text-red-900/70 hover:bg-red-100 hover:text-red-700"
           >
             <ExternalLink size={18} />
