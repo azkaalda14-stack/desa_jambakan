@@ -46,14 +46,20 @@ export default function Footer() {
             <h4 className="text-white font-bold text-sm uppercase tracking-wider">Ikuti Kami</h4>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://youtube.com/@desajambakan?si=rVvigN8a2SshTxiZ"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube Desa Jambakan"
   className="w-10 h-10 bg-gray-800 hover:bg-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-125 hover:-translate-y-1 active:scale-95"
                 title="YouTube"
               >
                 <Youtube size={18} />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/giat13_jambakan?igsh=MXNiZGNjb3U1dTRoZw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Desa Jambakan"
   className="w-10 h-10 bg-gray-800 hover:bg-red-600 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-125 hover:-translate-y-1 active:scale-95"
                 title="Instagram"
               >
