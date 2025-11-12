@@ -50,7 +50,7 @@ export default function Header() {
             />
             <div className="flex flex-col">
               <span className="font-bold text-red-900 text-sm sm:text-base md:text-lg leading-tight">DESA JAMBAKAN</span>
-              <span className="hidden sm:block text-red-600 text-xs sm:text-sm md:text-base font-medium">Kabupaten Klaten</span>
+              <span className="block text-red-600 text-xs sm:text-sm md:text-base font-medium leading-tight">Kabupaten Klaten</span>
             </div>
           </Link>
 
