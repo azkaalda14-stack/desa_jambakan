@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import AdminLayout from "@/components/admin/admin-layout"
-import PageManagement from "@/components/admin/page-management"
+import MapManagement from "@/components/admin/map-management"
 
 export default async function AdminPetaPage() {
   const supabase = await createClient()
@@ -17,7 +17,7 @@ export default async function AdminPetaPage() {
           <h1 className="text-2xl font-bold text-gray-900">Peta Desa</h1>
           <p className="text-gray-600">Kelola lokasi dan peta desa.</p>
         </div>
-        <PageManagement category="peta" currentUserId={user.id} />
+        <MapManagement currentUserId={user.id} />
       </div>
     </AdminLayout>
   )

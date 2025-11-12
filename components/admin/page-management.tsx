@@ -101,22 +101,33 @@ export default function PageManagement({
           .eq("id", form.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("pages").insert({
-          title: form.title,
-          slug: form.slug,
-          excerpt: form.excerpt || null,
-          content: form.content || null,
-          featured_image_url: form.featured_image_url || null,
-          status: form.status,
-          category,
-          created_by: currentUserId,
-        });
+        // Gunakan upsert agar jika slug sudah ada, baris akan diperbarui
+        const { error } = await supabase
+          .from("pages")
+          .upsert(
+            {
+              title: form.title,
+              slug: form.slug,
+              excerpt: form.excerpt || null,
+              content: form.content || null,
+              featured_image_url: form.featured_image_url || null,
+              status: form.status,
+              category,
+              created_by: currentUserId,
+            },
+            { onConflict: "slug" }
+          );
         if (error) throw error;
       }
       await refresh();
       resetForm();
     } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat menyimpan");
+      const rawMsg = err?.message || "Terjadi kesalahan saat menyimpan";
+      if (typeof rawMsg === "string" && rawMsg.toLowerCase().includes("conflict")) {
+        setError("Terjadi konflik data (slug). Coba ubah slug atau muat ulang.");
+      } else {
+        setError(rawMsg);
+      }
     } finally {
       setLoading(false);
     }

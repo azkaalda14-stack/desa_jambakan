@@ -35,7 +35,9 @@ export function GalleryLightbox({ item, isOpen, onClose }: GalleryLightboxProps)
             <img
               src={item.image_url}
               alt={item.title}
-              className="max-w-full max-h-[60vh] object-contain rounded-t-2xl"
+              loading="eager"
+              decoding="async"
+              className="max-w-full max-h-[80vh] object-contain rounded-t-2xl"
             />
             <DialogClose className="absolute top-6 right-6 z-10 bg-white/90 hover:bg-white text-black rounded-full p-3 transition-all duration-200 shadow-lg hover:shadow-xl">
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
