@@ -24,7 +24,11 @@ export default async function NewsAdminPage() {
     redirect("/admin/login")
   }
 
-  const { data: news } = await supabase.from("news").select("*").order("created_at", { ascending: false })
+  const { data: news } = await supabase
+    .from("news")
+    .select("*")
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false })
 
   return (
     <AdminLayout user={user} admin={admin}>
