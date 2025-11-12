@@ -164,13 +164,6 @@ export default async function AboutPage() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <section className="py-12 md:py-16 bg-gradient-to-r from-red-700 to-red-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <h1 className="text-4xl font-bold text-white mb-4 text-balance">Tentang Desa</h1>
-          </div>
-        </div>
-      </section>
 
       <section className="py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -195,47 +188,56 @@ export default async function AboutPage() {
 
 
           {/* Sejarah Desa */}
-          <div className="mt-16">
+          <section className="py-12">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-gray-900">Sejarah Desa</h3>
+              <h2 className="text-2xl md:text-3xl font-bold text-red-900">Sejarah Desa</h2>
             </div>
             {sejarahContent ? (
-              <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: sejarahContent }} />
+              <div className="prose max-w-none bg-white p-6 rounded-lg shadow-md" dangerouslySetInnerHTML={{ __html: sejarahContent }} />
             ) : (
-              <p className="text-gray-700">
-                Belum ada konten sejarah yang dipublikasikan. Silakan tambahkan konten pada admin kategori
-                <span className="font-semibold"> Sejarah</span>.
-              </p>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <p className="text-gray-700">
+                  Belum ada konten sejarah yang dipublikasikan. Silakan tambahkan konten pada admin kategori
+                  <span className="font-semibold"> Sejarah</span>.
+                </p>
+              </div>
             )}
-          </div>
+          </section>
 
           {/* Visi & Misi */}
-          <div className="mt-16 grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl p-6 shadow-md">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Visi</h3>
-              <p className="text-gray-700">{visi}</p>
+          <section className="py-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-red-900 mb-6">Visi & Misi</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-white rounded-lg p-6 shadow-md">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Visi</h3>
+                <p className="text-gray-700">{visi}</p>
+              </div>
+              <div className="bg-white rounded-lg p-6 shadow-md">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Misi</h3>
+                <ul className="list-disc list-inside space-y-2 text-gray-700">
+                  {misi.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="bg-white rounded-xl p-6 shadow-md">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Misi</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                {misi.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          </section>
 
           {/* Statistik Demografis */}
-          <div className="mt-16">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Statistik Demografis</h3>
-            <DemographicsSection data={demoData} />
-          </div>
+          <section className="py-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-red-900 mb-6">Statistik Demografis</h2>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <DemographicsSection data={demoData} />
+            </div>
+          </section>
 
           {/* Infografis Penduduk mengikuti referensi gambar */}
-          <div className="mt-16">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Infografis Penduduk</h3>
-            <PopulationInfographics summary={summary} ageGroups={ageGroups} dusun={dusun} education={education} jobs={jobs} marriage={marriage} religion={religion} />
-          </div>
+          <section className="py-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-red-900 mb-6">Infografis Penduduk</h2>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <PopulationInfographics summary={summary} ageGroups={ageGroups} dusun={dusun} education={education} jobs={jobs} marriage={marriage} religion={religion} />
+            </div>
+          </section>
         </div>
       </section>
       <Footer />

@@ -88,7 +88,7 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
               {dusun.map((d, i) => (
                 <div key={i} className="flex justify-between py-1">
                   <span>{d.name}</span>
-                  <span>{d.value.toLocaleString()} Jiwa</span>
+                  <span suppressHydrationWarning={true}>{d.value.toLocaleString()} Jiwa</span>
                 </div>
               ))}
             </div>
@@ -128,7 +128,7 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
                     {jobs.map((j, idx) => (
                       <TableRow key={idx}>
                         <TableCell>{j.name}</TableCell>
-                        <TableCell className="text-right font-semibold">{j.value.toLocaleString()}</TableCell>
+                        <TableCell className="text-right font-semibold" suppressHydrationWarning={true}>{j.value.toLocaleString()}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -138,7 +138,7 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
                 {jobs.slice(0, 6).map((j, idx) => (
                   <div key={idx} className="rounded-lg border bg-white p-6 text-center">
                     <p className="text-base text-gray-600 mb-2">{j.name}</p>
-                    <p className="text-3xl font-bold text-gray-900">{j.value.toLocaleString()}</p>
+                    <p className="text-3xl font-bold text-gray-900" suppressHydrationWarning={true}>{j.value.toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -154,7 +154,7 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
               {marriage.map((m, idx) => (
                 <div key={idx} className="rounded-lg border bg-white p-6 text-center">
                   <p className="text-base text-gray-600 mb-2">{m.name}</p>
-                  <p className="text-3xl font-bold text-gray-900">{m.value.toLocaleString()}</p>
+                  <p className="text-3xl font-bold text-gray-900" suppressHydrationWarning={true}>{m.value.toLocaleString()}</p>
                 </div>
               ))}
             </div>
@@ -169,7 +169,7 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
               {religion.map((r, idx) => (
                 <div key={idx} className="rounded-lg border bg-white p-6 text-center">
                   <p className="text-base text-gray-600 mb-2">{r.name}</p>
-                  <p className="text-3xl font-bold text-gray-900">{r.value.toLocaleString()}</p>
+                  <p className="text-3xl font-bold text-gray-900" suppressHydrationWarning={true}>{r.value.toLocaleString()}</p>
                 </div>
               ))}
             </div>
@@ -186,7 +186,7 @@ function SummaryCard({ title, value }: { title: string; value: number }) {
       <Users className="w-10 h-10 text-red-700" />
       <div>
         <p className="text-gray-600 text-sm">{title}</p>
-        <p className="text-2xl font-bold text-gray-900">{(value || 0).toLocaleString()}</p>
+        <p className="text-2xl font-bold text-gray-900" suppressHydrationWarning={true}>{(value || 0).toLocaleString()}</p>
       </div>
     </div>
   );
