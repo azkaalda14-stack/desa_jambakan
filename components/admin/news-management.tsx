@@ -92,20 +92,41 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
 
     try {
       if (editingId) {
+        // Siapkan data update dengan tanggal yang benar
+        let updateData: any = {
+          title: formData.title,
+          slug: formData.slug,
+          content: formData.content,
+          excerpt: formData.excerpt,
+          featured_image_url: formData.featured_image_url || null,
+          status: formData.status,
+          updated_at: new Date().toISOString(),
+        }
+
+        // Hanya update published_at jika ada tanggal yang dipilih
+        if (formData.published_date) {
+          updateData.published_at = new Date(formData.published_date).toISOString()
+        }
+
         const { error: updateError } = await supabase
           .from("news")
-          .update({
-            ...formData,
-            // don't send UI-only fields
-            category: undefined as unknown as never,
-            published_date: undefined as unknown as never,
-            updated_at: new Date().toISOString(),
-          })
+          .update(updateData)
           .eq("id", editingId)
 
         if (updateError) throw updateError
 
-        setNews(news.map((item: any) => (item.id === editingId ? { ...item, ...formData } : item)))
+        // Update state lokal dengan data yang benar
+        setNews(news.map((item: any) => (item.id === editingId ? { 
+          ...item, 
+          title: formData.title,
+          slug: formData.slug,
+          content: formData.content,
+          excerpt: formData.excerpt,
+          featured_image_url: formData.featured_image_url,
+          status: formData.status,
+          // Update published_at dengan tanggal yang benar
+          published_at: formData.published_date ? new Date(formData.published_date).toISOString() : item.published_at
+        } : item)))
       } else {
         // Build payload explicitly to avoid sending UI-only fields
         // Ensure slug uniqueness before insert
@@ -174,6 +195,16 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
   }
 
   const handleEdit = (item: any) => {
+    // Konversi tanggal dengan memperhatikan timezone lokal
+    let publishedDate = ""
+    if (item.published_at) {
+      const date = new Date(item.published_at)
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      publishedDate = `${year}-${month}-${day}`
+    }
+
     setFormData({
       title: item.title,
       slug: item.slug,
@@ -181,7 +212,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
       excerpt: item.excerpt,
       featured_image_url: item.featured_image_url || "",
       status: item.status,
-      published_date: item.published_at ? new Date(item.published_at).toISOString().slice(0, 10) : "",
+      published_date: publishedDate,
       category: "Umum",
     })
     setEditingId(item.id)
@@ -364,9 +395,11 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
                       >
                         {item.status === "published" ? "Publish" : "Draft"}
                       </span>
-                      <span className="text-xs text-gray-500">
-                        {new Date(item.created_at).toLocaleDateString("id-ID")}
-                      </span>
+                      {item.published_at && (
+                        <span className="text-xs text-gray-500">
+                          {new Date(item.published_at).toLocaleDateString("id-ID")}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="flex gap-2">
