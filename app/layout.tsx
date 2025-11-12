@@ -9,12 +9,12 @@ const geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Desa Website - Portal Desa Modern",
   description: "Portal informasi resmi desa dengan layanan digital modern",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    userScalable: true,
-  },
-    generator: 'v0.app'
+  generator: 'v0.app',
+}
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 }
 
 export default function RootLayout({
