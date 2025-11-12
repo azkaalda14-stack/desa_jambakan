@@ -31,6 +31,31 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
 
   const supabase = createClient()
 
+  // Ensure slug is unique by appending numeric suffix if needed
+  const ensureUniqueSlug = async (baseSlug: string): Promise<string> => {
+    const cleanBase = baseSlug
+    // Fetch existing slugs that start with baseSlug
+    const { data: existing } = await supabase
+      .from("news")
+      .select("slug")
+      .ilike("slug", `${cleanBase}%`)
+
+    if (!existing || existing.length === 0) return cleanBase
+
+    const used = new Set(existing.map((r: any) => r.slug))
+    if (!used.has(cleanBase)) return cleanBase
+
+    // Find next available suffix: base, base-2, base-3, ...
+    let i = 2
+    while (i < 1000) {
+      const candidate = `${cleanBase}-${i}`
+      if (!used.has(candidate)) return candidate
+      i++
+    }
+    // Fallback if too many duplicates
+    return `${cleanBase}-${Date.now()}`
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -83,9 +108,12 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
         setNews(news.map((item: any) => (item.id === editingId ? { ...item, ...formData } : item)))
       } else {
         // Build payload explicitly to avoid sending UI-only fields
+        // Ensure slug uniqueness before insert
+        const baseSlug = formData.slug || generateSlug(formData.title)
+        const uniqueSlug = await ensureUniqueSlug(baseSlug)
         const payload = {
           title: formData.title,
-          slug: formData.slug,
+          slug: uniqueSlug,
           content: formData.content,
           excerpt: formData.excerpt,
           featured_image_url: formData.featured_image_url || null,
@@ -124,7 +152,12 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
     } catch (error) {
       const errorMessage = (error as any)?.message || (error instanceof Error ? error.message : JSON.stringify(error))
       console.error("[v0] News submission error:", errorMessage)
-      setError(errorMessage)
+      // Provide clearer message for duplicate constraint
+      if (typeof errorMessage === "string" && errorMessage.includes("duplicate key value") && errorMessage.includes("news_slug_key")) {
+        setError("Slug sudah digunakan. Coba ubah judul atau slug akan otomatis ditambahkan angka agar unik.")
+      } else {
+        setError(errorMessage)
+      }
     }
   }
 

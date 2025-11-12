@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Upload, X, AlertCircle } from "lucide-react"
 // Tidak lagi upload langsung dari klien; gunakan route server-side dengan Service Role
@@ -17,9 +17,29 @@ export default function ImageUpload({ onUpload, currentImage, bucket, folder }: 
   const [preview, setPreview] = useState<string>(currentImage || "")
   const [isUploading, setIsUploading] = useState(false)
   const [error, setError] = useState<string>("")
+  const [storageStatus, setStorageStatus] = useState<{ storage: "supabase" | "blob" | "none"; message: string } | null>(
+    null,
+  )
 
   const effectiveBucket = bucket || process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || "public"
   const effectiveFolder = folder || "uploads"
+
+  // Fetch storage status from server to inform user which backend is active
+  useEffect(() => {
+    let mounted = true
+    fetch("/api/upload")
+      .then(async (res) => {
+        const data = await res.json()
+        if (!mounted) return
+        setStorageStatus({ storage: data.storage, message: data.message })
+      })
+      .catch(() => {
+        // ignore silently
+      })
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -89,7 +109,27 @@ export default function ImageUpload({ onUpload, currentImage, bucket, folder }: 
 
   return (
     <div>
-      <Label>Gambar</Label>
+      <div className="flex items-center gap-2">
+        <Label>Gambar</Label>
+        {storageStatus && (
+          <span
+            className={
+              storageStatus.storage === "none"
+                ? "text-xs px-2 py-0.5 rounded bg-red-100 text-red-700"
+                : storageStatus.storage === "supabase"
+                  ? "text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-700"
+                  : "text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-700"
+            }
+            title={storageStatus.message}
+          >
+            {storageStatus.storage === "none"
+              ? "Storage: none"
+              : storageStatus.storage === "supabase"
+                ? "Storage: Supabase"
+                : "Storage: Blob"}
+          </span>
+        )}
+      </div>
       <div className="mt-2 space-y-4">
         {preview && (
           <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
@@ -107,6 +147,15 @@ export default function ImageUpload({ onUpload, currentImage, bucket, folder }: 
           <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
             <AlertCircle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-red-700">{error}</p>
+          </div>
+        )}
+
+        {storageStatus?.storage === "none" && (
+          <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 p-3 rounded">
+            Layanan upload belum dikonfigurasi di server. Set env Supabase
+            (<code>NEXT_PUBLIC_SUPABASE_URL</code>, <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>,
+            <code>SUPABASE_SERVICE_ROLE_KEY</code>) atau token Vercel Blob (<code>BLOB_READ_WRITE_TOKEN</code>), lalu
+            redeploy.
           </div>
         )}
 
