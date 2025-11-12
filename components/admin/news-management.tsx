@@ -25,8 +25,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
     featured_image_url: "",
     status: "draft",
     published_date: "",
-    // UI-only: category (not persisted)
-    category: "Umum",
+    category: "Umum", // default category
   })
 
   const supabase = createClient()
@@ -100,6 +99,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
           excerpt: formData.excerpt,
           featured_image_url: formData.featured_image_url || null,
           status: formData.status,
+          category: formData.category,
           updated_at: new Date().toISOString(),
         }
 
@@ -124,6 +124,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
           excerpt: formData.excerpt,
           featured_image_url: formData.featured_image_url,
           status: formData.status,
+          category: formData.category, // <-- tambahkan ini
           // Update published_at dengan tanggal yang benar
           published_at: formData.published_date ? new Date(formData.published_date).toISOString() : item.published_at
         } : item)))
@@ -140,6 +141,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
           featured_image_url: formData.featured_image_url || null,
           status: formData.status,
           author_id: currentUserId,
+          category: formData.category,
           // use chosen date for published_at if provided, else now
           published_at:
             formData.status === "published"
@@ -213,7 +215,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
       featured_image_url: item.featured_image_url || "",
       status: item.status,
       published_date: publishedDate,
-      category: "Umum",
+      category: item.category || "Umum",
     })
     setEditingId(item.id)
     setIsFormOpen(true)

@@ -28,6 +28,14 @@ export default function NewsSection({ news }: any) {
                     />
                   )}
                   <div className="p-6">
+                    {item.category && (
+                      <Link
+                        href={`/berita/kategori/${encodeURIComponent(item.category)}`}
+                        className="inline-block text-xs px-2 py-1 rounded bg-red-100 text-red-800 mb-2"
+                      >
+                        {item.category}
+                      </Link>
+                    )}
                     <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">{item.title}</h3>
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">{item.excerpt}</p>
                     <div className="flex items-center gap-4 text-gray-500 text-sm mb-4">

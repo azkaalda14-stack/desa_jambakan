@@ -31,7 +31,14 @@ export default async function NewsDetailPage({
           </Link>
 
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 text-balance">{news.title}</h1>
-
+          {news.category && (
+            <Link
+              href={`/berita/kategori/${encodeURIComponent(news.category)}`}
+              className="inline-block text-xs px-3 py-1 rounded bg-red-100 text-red-800 mb-4"
+            >
+              {news.category}
+            </Link>
+          )}
           <div className="flex items-center gap-2 text-gray-500 mb-8">
             <Calendar size={20} />
             {new Date(news.published_at).toLocaleDateString("id-ID", {
