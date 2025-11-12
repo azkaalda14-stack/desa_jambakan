@@ -36,7 +36,7 @@ export default function Header() {
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
       isScrolled 
-        ? "bg-white shadow-lg" 
+        ? "bg-white/95 backdrop-blur-md shadow-lg" 
         : "bg-white shadow-sm"
     }`}>
       <nav className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
@@ -46,11 +46,11 @@ export default function Header() {
             <img
               src="https://commons.wikimedia.org/wiki/Special:FilePath/Seal_of_Klaten_Regency.svg"
               alt="Logo Kabupaten Klaten (transparan)"
-              className="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-sm"
+              className="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-110 transition-transform duration-300"
             />
             <div className="hidden sm:flex flex-col">
-  <span className="font-bold text-red-900 text-base md:text-lg leading-tight tracking-wide drop-shadow-sm">DESA JAMBAKAN</span>
-  <span className="text-red-600 text-sm md:text-base font-semibold tracking-wide">Kabupaten Klaten</span>
+  <span className="font-bold text-red-900 text-base md:text-lg leading-tight">DESA JAMBAKAN</span>
+  <span className="text-red-600 text-sm md:text-base font-medium">Kabupaten Klaten</span>
             </div>
           </Link>
 
@@ -59,7 +59,7 @@ export default function Header() {
             <Link
               href="/"
               prefetch={false}
-  className="px-4 py-3 text-sm font-semibold text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg transform hover:scale-105 hover:shadow-sm"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Beranda
             </Link>
@@ -67,12 +67,12 @@ export default function Header() {
             <div className="relative" ref={profileRef}>
               <button
                 onClick={() => setActiveDropdown(activeDropdown === "profile" ? null : "profile")}
-  className="px-4 py-3 text-sm font-semibold text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg transform hover:scale-105 hover:shadow-sm flex items-center gap-1"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
               >
                 Profile
                 <ChevronDown
                   size={16}
-                  className={`transition-transform duration-300 ${activeDropdown === "profile" ? "rotate-180" : ""}`}
+                  className={`transition-transform ${activeDropdown === "profile" ? "rotate-180" : ""}`}
                 />
               </button>
               {activeDropdown === "profile" && (
@@ -81,7 +81,7 @@ export default function Header() {
                     href="/tentang"
                     prefetch={false}
                     onClick={() => setActiveDropdown(null)}
-  className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-200"
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
                   >
                     Sejarah Desa
                   </Link>
@@ -89,7 +89,7 @@ export default function Header() {
                     href="/profil/peta-desa"
                     prefetch={false}
                     onClick={() => setActiveDropdown(null)}
-  className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-200"
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
                   >
                     Peta Desa
                   </Link>
@@ -97,7 +97,7 @@ export default function Header() {
                     href="/profil/struktur"
                     prefetch={false}
                     onClick={() => setActiveDropdown(null)}
-  className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-200"
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
                   >
                     Struktur Desa
                   </Link>
@@ -108,12 +108,12 @@ export default function Header() {
             <div className="relative" ref={budayaRef}>
               <button
                 onClick={() => setActiveDropdown(activeDropdown === "budaya" ? null : "budaya")}
-  className="px-4 py-3 text-sm font-semibold text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg transform hover:scale-105 hover:shadow-sm flex items-center gap-1"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex items-center gap-1"
               >
                 Budaya
                 <ChevronDown
                   size={16}
-                  className={`transition-transform duration-300 ${activeDropdown === "budaya" ? "rotate-180" : ""}`}
+                  className={`transition-transform ${activeDropdown === "budaya" ? "rotate-180" : ""}`}
                 />
               </button>
               {activeDropdown === "budaya" && (
@@ -122,7 +122,7 @@ export default function Header() {
                     href="/budaya/tenun"
                     prefetch={false}
                     onClick={() => setActiveDropdown(null)}
-  className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-200"
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
                   >
                     Karya Tenun
                   </Link>
@@ -130,7 +130,7 @@ export default function Header() {
                     href="/budaya/karawitan"
                     prefetch={false}
                     onClick={() => setActiveDropdown(null)}
-  className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-200"
+  className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
                   >
                     Karawitan
                   </Link>
@@ -141,14 +141,14 @@ export default function Header() {
             <Link
               href="/berita"
               prefetch={false}
-  className="px-4 py-3 text-sm font-semibold text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg transform hover:scale-105 hover:shadow-sm"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Berita
             </Link>
             <Link
               href="/galeri"
               prefetch={false}
-  className="px-4 py-3 text-sm font-semibold text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg transform hover:scale-105 hover:shadow-sm"
+  className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Galeri
             </Link>
@@ -157,7 +157,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-  className="md:hidden text-gray-700 hover:text-red-600 transition-all duration-300 transform hover:scale-110"
+  className="md:hidden text-gray-700 hover:text-red-600 transition-colors"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -165,12 +165,12 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden pb-4 border-t border-gray-100 pt-4 space-y-2 bg-white">
+          <div className="md:hidden pb-4 border-t border-gray-100 pt-4 space-y-2">
             <Link
               href="/"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Beranda
             </Link>
@@ -178,7 +178,7 @@ export default function Header() {
               href="/tentang"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Sejarah Desa
             </Link>
@@ -186,7 +186,7 @@ export default function Header() {
               href="/profil/peta-desa"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Peta Desa
             </Link>
@@ -194,7 +194,7 @@ export default function Header() {
               href="/profil/struktur"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Struktur Desa
             </Link>
@@ -202,7 +202,7 @@ export default function Header() {
               href="/budaya/tenun"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Karya Tenun
             </Link>
@@ -210,7 +210,7 @@ export default function Header() {
               href="/budaya/karawitan"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Karawitan
             </Link>
@@ -218,7 +218,7 @@ export default function Header() {
               href="/berita"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Berita
             </Link>
@@ -226,7 +226,7 @@ export default function Header() {
               href="/galeri"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-  className="block px-4 py-3 text-gray-800 hover:text-red-700 hover:bg-red-50 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:translate-x-1"
+  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition-colors"
             >
               Galeri
             </Link>
