@@ -6,20 +6,22 @@ import { useState, useEffect } from "react"
 
 const heroImages = [
   {
-    url: "/traditional-indonesian-village-jambakan-architectu.jpg",
+    url: "/village-view.jpg",
     title: "Selamat Datang di Desa Jambakan",
     description:
-      "Jelajahi keindahan warisan budaya tradisional, kearya tenun, dan karawitan yang kaya dari Desa Jambakan, Kabupaten Klaten",
+      "Jelajahi keindahan warisan budaya tradisional, karya tenun, dan karawitan dari Desa Jambakan, Kabupaten Klaten",
   },
   {
-    url: "/traditional-weaving-craft-workshop.jpg",
+    url: "/village-pattern.jpg",
     title: "Karya Tenun Tradisional",
-    description: "Warisan kerajinan tenun yang indah dan berkualitas tinggi dari pengrajin lokal Desa Jambakan",
+    description:
+      "Kerajinan tenun yang indah dan berkualitas dari para pengrajin lokal",
   },
   {
-    url: "/traditional-karawitan-gamelan-instruments.jpg",
+    url: "/placeholder.jpg",
     title: "Karawitan Jambakan",
-    description: "Seni musik tradisional yang memukau dengan instrumen gamelan yang bernilai sejarah tinggi",
+    description:
+      "Seni musik tradisional yang memukau dengan instrumen gamelan bernilai sejarah",
   },
 ]
 
@@ -53,7 +55,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative w-full h-screen md:h-[600px] overflow-hidden">
+    <section className="relative w-full h-[70vh] sm:h-[80vh] md:h-[600px] overflow-hidden">
       {/* Carousel Slides */}
       {heroImages.map((slide, index) => (
         <div
@@ -72,7 +74,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <h1 className="text-5xl md:text-7xl font-bold text-balance leading-tight animate-in fade-in duration-1000">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-balance leading-tight animate-in fade-in duration-1000">
               {heroImages[currentSlide].title}
             </h1>
             <p className="text-lg md:text-xl text-gray-100 text-balance leading-relaxed max-w-2xl mx-auto animate-in fade-in duration-1000 delay-200">
@@ -80,17 +82,17 @@ export default function HeroSection() {
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex gap-4 justify-center flex-wrap pt-8 animate-in fade-in duration-1000 delay-300">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 animate-in fade-in duration-1000 delay-300">
               <Link
                 href="/budaya/tenun"
-  className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 inline-flex items-center gap-2"
+                className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 inline-flex items-center gap-2"
               >
                 Lihat Karya Tenun
                 <ChevronDown size={18} className="rotate-180" />
               </Link>
               <Link
                 href="/berita"
-                className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 border border-white/30 hover:border-white/50 backdrop-blur-sm hover:scale-110 active:scale-95 inline-flex items-center gap-2"
+                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 border border-white/30 hover:border-white/50 backdrop-blur-sm hover:scale-110 active:scale-95 inline-flex items-center gap-2"
               >
                 Baca Berita
               </Link>
@@ -102,13 +104,13 @@ export default function HeroSection() {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm hover:scale-125 active:scale-95"
+        className="hidden sm:flex absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm hover:scale-125 active:scale-95"
       >
         <ChevronLeft size={24} />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm hover:scale-125 active:scale-95"
+        className="hidden sm:flex absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm hover:scale-125 active:scale-95"
       >
         <ChevronRight size={24} />
       </button>

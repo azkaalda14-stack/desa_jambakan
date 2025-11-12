@@ -184,10 +184,6 @@ export default async function AboutPage() {
                 {villageInfo?.description ||
                   "Desa kami adalah sebuah komunitas yang berkembang dengan semangat kebersamaan dan kemajuan bersama."}
               </p>
-              <p className="text-gray-600 text-base leading-relaxed">
-                Dengan dukungan teknologi digital modern, kami terus berinovasi untuk meningkatkan kualitas kehidupan
-                masyarakat desa.
-              </p>
             </div>
           </div>
 

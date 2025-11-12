@@ -54,7 +54,7 @@ export default function AboutSection({ villageInfo }: any) {
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <div key={index} className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition">
               <stat.icon className="w-8 h-8 text-red-700 mx-auto mb-3" />

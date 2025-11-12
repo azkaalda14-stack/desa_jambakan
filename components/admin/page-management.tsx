@@ -216,8 +216,10 @@ export default function PageManagement({
           <div>
             <label className="block text-sm font-medium mb-1">Gambar Utama</label>
             <ImageUpload
-              onUploadComplete={(url: string) => setForm({ ...form, featured_image_url: url })}
-              currentImageUrl={form.featured_image_url}
+              onUpload={(url: string) => setForm({ ...form, featured_image_url: url })}
+              currentImage={form.featured_image_url || undefined}
+              folder="pages"
+              bucket="pages"
             />
           </div>
           <div className="flex items-center gap-3">

@@ -123,3 +123,33 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes floatIcon {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+
+  .fade-up {
+    animation: fadeUp 0.35s ease-out both;
+  }
+
+  .float-icon {
+    animation: floatIcon 4s ease-in-out infinite;
+  }
+}

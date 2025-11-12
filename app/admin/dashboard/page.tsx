@@ -50,10 +50,10 @@ export default async function AdminDashboard() {
 
   return (
     <AdminLayout user={user} admin={admin}>
-      <div className="space-y-8">
+      <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard Admin</h1>
-          <p className="text-gray-700 mt-2">Kelola konten website Desa Jambakan</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard Admin</h1>
+          <p className="text-sm sm:text-base text-gray-700 mt-1">Kelola konten website Desa Jambakan</p>
         </div>
 
         <DashboardOverview

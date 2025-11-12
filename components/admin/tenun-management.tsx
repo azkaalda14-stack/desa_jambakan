@@ -240,7 +240,12 @@ export default function TenunManagement({
 
             <div>
               <label className="block text-sm font-medium mb-1">Gambar Produk</label>
-              <ImageUpload onUploadComplete={(url: string) => setForm({ ...form, image_url: url })} currentImageUrl={form.image_url} />
+              <ImageUpload
+                onUpload={(url: string) => setForm({ ...form, image_url: url })}
+                currentImage={form.image_url || undefined}
+                folder="tenun"
+                bucket="tenun"
+              />
               <p className="text-xs text-gray-500 mt-1">Format yang didukung: JPEG, PNG, GIF, WebP. Maksimal 2MB.</p>
             </div>
 

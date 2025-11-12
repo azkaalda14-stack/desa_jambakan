@@ -82,21 +82,27 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
 
         setNews(news.map((item: any) => (item.id === editingId ? { ...item, ...formData } : item)))
       } else {
+        // Build payload explicitly to avoid sending UI-only fields
+        const payload = {
+          title: formData.title,
+          slug: formData.slug,
+          content: formData.content,
+          excerpt: formData.excerpt,
+          featured_image_url: formData.featured_image_url || null,
+          status: formData.status,
+          author_id: currentUserId,
+          // use chosen date for published_at if provided, else now
+          published_at:
+            formData.status === "published"
+              ? formData.published_date
+                ? new Date(formData.published_date).toISOString()
+                : new Date().toISOString()
+              : null,
+        }
+
         const { data: newNews, error: insertError } = await supabase
           .from("news")
-          .insert([
-            {
-              ...formData,
-              author_id: currentUserId,
-              // use chosen date for published_at if provided, else now
-              published_at:
-                formData.status === "published"
-                  ? formData.published_date
-                    ? new Date(formData.published_date).toISOString()
-                    : new Date().toISOString()
-                  : null,
-            },
-          ])
+          .insert([payload])
           .select()
 
         if (insertError) throw insertError
@@ -116,7 +122,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
       setEditingId(null)
       setIsFormOpen(false)
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
+      const errorMessage = (error as any)?.message || (error instanceof Error ? error.message : JSON.stringify(error))
       console.error("[v0] News submission error:", errorMessage)
       setError(errorMessage)
     }
@@ -209,7 +215,7 @@ export default function NewsManagement({ initialNews, currentUserId }: any) {
                 <Input id="slug" name="slug" value={formData.slug} readOnly className="bg-gray-100" />
               </div>
 
-              <ImageUpload onUpload={handleImageUpload} currentImage={formData.featured_image_url} />
+    <ImageUpload onUpload={handleImageUpload} currentImage={formData.featured_image_url || undefined} folder="news" bucket="news" />
 
               <div>
                 <Label htmlFor="excerpt">Ringkasan</Label>

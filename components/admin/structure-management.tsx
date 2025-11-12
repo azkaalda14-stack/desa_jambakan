@@ -197,7 +197,12 @@ export default function StructureManagement({ currentUserId }: { currentUserId: 
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Foto</label>
-              <ImageUpload onUploadComplete={(url: string) => setForm({ ...form, photo_url: url })} currentImageUrl={form.photo_url} />
+              <ImageUpload
+                onUpload={(url: string) => setForm({ ...form, photo_url: url })}
+                currentImage={form.photo_url || undefined}
+                folder="village_structure"
+                bucket="village_structure"
+              />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>

@@ -4,16 +4,22 @@ import type React from "react"
 import { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Upload, X, AlertCircle } from "lucide-react"
+// Tidak lagi upload langsung dari klien; gunakan route server-side dengan Service Role
 
 interface ImageUploadProps {
   onUpload: (url: string) => void
   currentImage?: string
+  bucket?: string
+  folder?: string
 }
 
-export default function ImageUpload({ onUpload, currentImage }: ImageUploadProps) {
+export default function ImageUpload({ onUpload, currentImage, bucket, folder }: ImageUploadProps) {
   const [preview, setPreview] = useState<string>(currentImage || "")
   const [isUploading, setIsUploading] = useState(false)
   const [error, setError] = useState<string>("")
+
+  const effectiveBucket = bucket || process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || "public"
+  const effectiveFolder = folder || "uploads"
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -25,63 +31,51 @@ export default function ImageUpload({ onUpload, currentImage }: ImageUploadProps
     if (file.size > MAX_FILE_SIZE) {
       const errorMsg = `File terlalu besar (${(file.size / 1024 / 1024).toFixed(2)}MB). Max: 5MB`
       setError(errorMsg)
-      console.error("[v0] Client validation:", errorMsg)
+      console.error("[upload] Client validation:", errorMsg)
       return
     }
 
     if (!file.type.startsWith("image/")) {
       const errorMsg = "File harus berupa gambar (JPG, PNG, dll)"
       setError(errorMsg)
-      console.error("[v0] Client validation:", errorMsg)
+      console.error("[upload] Client validation:", errorMsg)
       return
     }
 
-    // Show preview
+    // Show preview while uploading
     const reader = new FileReader()
     reader.onloadend = () => {
       setPreview(reader.result as string)
     }
     reader.readAsDataURL(file)
 
-    // Upload to Vercel Blob
+    // Upload via server route (service role)
     setIsUploading(true)
-    console.log("[v0] Starting upload for file:", file.name)
     try {
       const formData = new FormData()
       formData.append("file", file)
+      formData.append("bucket", effectiveBucket)
+      formData.append("folder", effectiveFolder)
 
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      })
-
-      if (!response.ok) {
-        let errorDetails = "Upload gagal"
+      const res = await fetch("/api/upload", { method: "POST", body: formData })
+      if (!res.ok) {
+        let msg = `Server error (${res.status})`
         try {
-          const errorData = await response.json()
-          console.error("[v0] Server error response:", errorData)
-          errorDetails = errorData.details || errorData.error || errorDetails
-        } catch {
-          // If response is not JSON, use status text
-          errorDetails = `Server error (${response.status}): ${response.statusText}`
-          console.error("[v0] Non-JSON error response:", errorDetails)
-        }
-        throw new Error(errorDetails)
+          const data = await res.json()
+          msg = data?.error || msg
+        } catch {}
+        throw new Error(msg)
       }
+      const data: { url?: string; path?: string } = await res.json()
+      const returnedUrl = data.url || ""
 
-      const data = await response.json()
-      console.log("[v0] Upload successful:", data.url)
-      onUpload(data.url)
-      setPreview(data.url)
+      onUpload(returnedUrl)
+      setPreview(returnedUrl)
       setError("")
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Kesalahan tidak diketahui"
-      console.error("[v0] Upload error details:", {
-        error: errorMessage,
-        fileName: file.name,
-        fileSize: file.size,
-      })
-      setError(`Gagal upload: ${errorMessage}`)
+    } catch (err) {
+      const errMsg = err instanceof Error ? err.message : "Kesalahan tidak diketahui"
+      console.error("[upload] Server upload error:", errMsg)
+      setError(`Gagal upload: ${errMsg}`)
     } finally {
       setIsUploading(false)
     }

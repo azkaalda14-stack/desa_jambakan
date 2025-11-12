@@ -4,10 +4,10 @@ import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { LogOut, Menu, X, BarChart3, FileText, Image, Music, Layers, Users, BookOpen, Map, ExternalLink } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function AdminLayout({ user, admin, children }: any) {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
   const supabase = createClient()
@@ -16,6 +16,15 @@ export default function AdminLayout({ user, admin, children }: any) {
     await supabase.auth.signOut()
     router.push("/admin/login")
   }
+
+  // Show sidebar by default on desktop, hidden on mobile
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(true)
+      }
+    }
+  }, [])
 
   const menuItems = [
     { href: "/admin/dashboard", label: "Dashboard", icon: BarChart3 },
@@ -29,12 +38,13 @@ export default function AdminLayout({ user, admin, children }: any) {
   ]
 
   return (
-    <div className="flex h-screen bg-neutral-50">
+    <div className="flex min-h-screen bg-neutral-50">
       {/* Sidebar */}
-      <div
-        className={`fixed md:static top-0 left-0 h-screen bg-rose-50 text-gray-900 border-r border-gray-200 transition-transform ${
-          sidebarOpen ? "w-64" : "w-0 md:w-0"
-        } z-40 flex flex-col`}
+      <aside
+        className={`bg-rose-50 text-gray-900 border-r border-gray-200 z-40 w-64 ${
+          // Mobile: toggle sidebar as an overlay; Desktop: always visible and non-fixed
+          sidebarOpen ? "fixed inset-y-0 left-0 md:static md:flex" : "hidden md:static md:flex"
+        } flex flex-col`}
       >
         <div className="p-5 border-b border-gray-200">
           <div className="flex items-center gap-3">
@@ -86,24 +96,26 @@ export default function AdminLayout({ user, admin, children }: any) {
             </button>
           </div>
         </div>
-      </div>
+      </aside>
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
         {/* Top Bar */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
-          <div className="flex items-center justify-between p-6">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden">
+          <div className="flex items-center justify-between p-4 sm:p-6">
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden p-2 -ml-2">
               {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <div className="flex items-center gap-4">
-              <span className="text-gray-700">Admin: {user.email}</span>
+            <div className="hidden sm:flex items-center gap-4">
+              <span className="text-gray-700 truncate max-w-[200px]">Admin: {user.email}</span>
             </div>
           </div>
         </div>
 
         {/* Page Content */}
-        <div className="p-6 md:p-8">{children}</div>
+        <div className="flex-1 p-6 md:p-8 overflow-y-auto">
+          <div className="max-w-6xl mx-auto">{children}</div>
+        </div>
       </div>
 
       {/* Mobile Overlay */}

@@ -195,8 +195,10 @@ export default function GalleryManagement({
             <div>
               <label className="block text-sm font-medium mb-1">Upload Gambar</label>
               <ImageUpload
-                onUploadComplete={(url: string) => setForm({ ...form, image_url: url })}
-                currentImageUrl={form.image_url}
+                onUpload={(url: string) => setForm({ ...form, image_url: url })}
+                currentImage={form.image_url || undefined}
+                folder="gallery"
+                bucket="gallery"
               />
               {!form.image_url && (
                 <p className="text-xs text-gray-500 mt-1">Format yang didukung: JPEG, PNG, GIF, WebP. Maksimal 2MB.</p>

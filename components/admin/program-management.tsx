@@ -145,7 +145,7 @@ export default function ProgramManagement({ initialPrograms }: any) {
                 />
               </div>
 
-              <ImageUpload onUpload={handleImageUpload} currentImage={formData.image_url} />
+              <ImageUpload onUpload={handleImageUpload} currentImage={formData.image_url || undefined} folder="programs" bucket="programs" />
 
               <div>
                 <Label htmlFor="description">Deskripsi</Label>
