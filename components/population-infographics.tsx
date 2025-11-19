@@ -51,19 +51,23 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
         {/* Piramida penduduk berdasarkan kelompok umur */}
         <div className="bg-white rounded-xl p-8 shadow-md">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">Berdasarkan Kelompok Umur</h3>
-          <ChartContainer config={ageConfig} className="h-[420px]">
-            <ResponsiveContainer>
-              <BarChart data={ageData} layout="vertical" margin={{ left: 24, right: 24 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" tickFormatter={(v) => Math.abs(Number(v)).toLocaleString()} />
-                <YAxis dataKey="group" type="category" width={100} />
-                <Tooltip formatter={(v) => Math.abs(Number(v)).toLocaleString()} />
-                <Legend />
-                <Bar dataKey="male" name="Laki-laki" fill="var(--color-male)" />
-                <Bar dataKey="female" name="Perempuan" fill="var(--color-female)" />
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          <div className="overflow-x-auto">
+            <div className="min-w-[560px] sm:min-w-0">
+              <ChartContainer config={ageConfig} className="h-[420px]">
+                <ResponsiveContainer>
+                  <BarChart data={ageData} layout="vertical" margin={{ left: 24, right: 24 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" tickFormatter={(v) => Math.abs(Number(v)).toLocaleString()} />
+                  <YAxis dataKey="group" type="category" width={100} />
+                  <Tooltip formatter={(v) => Math.abs(Number(v)).toLocaleString()} />
+                  <Legend />
+                  <Bar dataKey="male" name="Laki-laki" fill="var(--color-male)" />
+                  <Bar dataKey="female" name="Perempuan" fill="var(--color-female)" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
+          </div>
         </div>
 
         {/* Pie chart berdasarkan Dusun */}
@@ -98,17 +102,21 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
         {/* Bar chart pendidikan */}
         <div className="bg-white rounded-xl p-8 shadow-md">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">Berdasarkan Pendidikan</h3>
-          <ChartContainer config={{ edu: { label: "Pendidikan" } }} className="h-[420px]">
-            <ResponsiveContainer>
-              <BarChart data={education}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="level" interval={0} angle={0} tick={{ fontSize: 12 }} />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" name="Jumlah" fill="#b91c1c" />
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          <div className="overflow-x-auto">
+            <div className="min-w-[640px] sm:min-w-0">
+              <ChartContainer config={{ edu: { label: "Pendidikan" } }} className="h-[420px]">
+                <ResponsiveContainer>
+                  <BarChart data={education}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="level" interval={0} angle={-30} tick={{ fontSize: 11 }} height={60} />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" name="Jumlah" fill="#b91c1c" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
+          </div>
         </div>
 
         {/* Pekerjaan */}
