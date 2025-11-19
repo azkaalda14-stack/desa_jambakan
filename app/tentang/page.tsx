@@ -195,7 +195,7 @@ export default async function AboutPage() {
             </div>
             {sejarahContent ? (
               <div
-                className="prose max-w-none bg-white p-6 rounded-lg shadow-md prose-p:text-justify prose-p:leading-relaxed"
+                className="prose prose-sm sm:prose max-w-none bg-white p-4 sm:p-6 rounded-lg shadow-md overflow-x-auto prose-p:text-justify prose-p:leading-relaxed prose-img:rounded-lg prose-img:w-full sm:prose-img:w-auto prose-img:h-auto prose-table:w-full prose-ul:pl-5 prose-ol:pl-5 prose-a:break-words"
                 dangerouslySetInnerHTML={{ __html: sejarahContent }}
               />
             ) : (
