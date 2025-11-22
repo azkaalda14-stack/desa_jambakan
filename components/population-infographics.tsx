@@ -71,10 +71,10 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
         </div>
 
         {/* Pie chart berdasarkan Dusun */}
-        <div className="bg-white rounded-xl p-8 shadow-md">
+        <div className="bg-white rounded-xl p-8 shadow-md overflow-hidden">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">Berdasarkan Dusun</h3>
-          <div className="grid md:grid-cols-2 gap-6 items-center">
-            <ChartContainer config={{ dusun: { label: "Dusun" } }} className="h-[360px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <ChartContainer config={{ dusun: { label: "Dusun" } }} className="h-[360px] w-full">
               <ResponsiveContainer>
                 <PieChart>
                   <Pie data={dusun} dataKey="value" nameKey="name" innerRadius={80} outerRadius={120} label>
@@ -82,17 +82,16 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
                       <Cell key={i} fill={pieColors[i % pieColors.length]} />
                     ))}
                   </Pie>
-                  <Legend />
                   <ChartTooltip />
                 </PieChart>
               </ResponsiveContainer>
             </ChartContainer>
-            <div className="text-base text-gray-700">
+            <div className="text-sm sm:text-base text-gray-700 w-full">
               <p className="font-medium mb-2">Keterangan:</p>
               {dusun.map((d, i) => (
                 <div key={i} className="flex justify-between py-1">
-                  <span>{d.name}</span>
-                  <span suppressHydrationWarning={true}>{d.value.toLocaleString()} Jiwa</span>
+                  <span className="truncate">{d.name}</span>
+                  <span className="font-mono tabular-nums" suppressHydrationWarning={true}>{d.value.toLocaleString()} Jiwa</span>
                 </div>
               ))}
             </div>
