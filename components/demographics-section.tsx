@@ -78,9 +78,9 @@ function SingleDonut({ title, value, colorVar, configKey, configs }: { title: st
   const config: ChartConfig = { [configKey]: configs[configKey] } as ChartConfig;
 
   return (
-    <div className="bg-white rounded-xl p-4 shadow-md">
+    <div className="bg-white rounded-xl p-4 shadow-md overflow-hidden">
       <h5 className="font-semibold mb-2">{title}</h5>
-      <ChartContainer config={config} className="h-56">
+      <ChartContainer config={config} className="aspect-auto h-56 w-full">
         <PieChart>
           <Pie data={data} dataKey="value" nameKey="name" innerRadius={60} outerRadius={100}>
             <Cell key={`cell-0`} fill={data[0].fill} />

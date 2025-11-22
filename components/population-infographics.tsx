@@ -39,7 +39,7 @@ export default function PopulationInfographics({
 const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 overflow-x-hidden">
       {/* Ringkasan jumlah penduduk & KK */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <SummaryCard title="Jumlah Penduduk" value={summary.population} />
@@ -74,10 +74,10 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
         <div className="bg-white rounded-xl p-8 shadow-md overflow-hidden">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">Berdasarkan Dusun</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-            <ChartContainer config={{ dusun: { label: "Dusun" } }} className="h-[360px] w-full">
+            <ChartContainer config={{ dusun: { label: "Dusun" } }} className="aspect-auto h-[360px] w-full">
               <ResponsiveContainer>
                 <PieChart>
-                  <Pie data={dusun} dataKey="value" nameKey="name" innerRadius={80} outerRadius={120} label>
+                  <Pie data={dusun} dataKey="value" nameKey="name" innerRadius={70} outerRadius={100}>
                     {dusun.map((_, i) => (
                       <Cell key={i} fill={pieColors[i % pieColors.length]} />
                     ))}
@@ -89,7 +89,7 @@ const pieColors = ["#2563eb", "#ef4444", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6
             <div className="text-sm sm:text-base text-gray-700 w-full">
               <p className="font-medium mb-2">Keterangan:</p>
               {dusun.map((d, i) => (
-                <div key={i} className="flex justify-between py-1">
+                <div key={i} className="grid grid-cols-[1fr_auto] items-center py-1">
                   <span className="truncate">{d.name}</span>
                   <span className="font-mono tabular-nums" suppressHydrationWarning={true}>{d.value.toLocaleString()} Jiwa</span>
                 </div>
